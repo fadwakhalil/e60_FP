@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style type="text/css">
+body {
+	font-family: verdana, tahoma, helvetica, arial, sans-serif;	
+	background-color:  	#DCF0F7;
+}
+
+img {
+    opacity: 0.8;
+}
+a {color: #33395a;} /* links - dark blue */
+a:hover {color: #6f0736;} /* links - dark purple */
+h1, h2 { color: white;
+background-color: #778899; /* light green */
+}
+h3, h4, h5 { color: #33395a; /* dark blue */
+}
+h6 {color: #6B5947;
+}
+h7 {font-family: cursive;
+	font-size: smaller;
+	display:inline;
+    font-style: italic;
+    font-weight: bold;
+    color:#200000;
+    position: relative;
+    top: -15px;
+}
+h8 {font-family: cursive;
+	font-size: medium;
+	display:inline;
+    font-style: italic;
+    font-weight: bold;
+    color:#200000;
+    position: relative;
+    top: -5px;
+}
+.required { color: #ff0000; /* red */
+font-size: smaller;
+}
+.site-header {
+  height: 160px; 
+  background: #200000;
+}
+* {
+  margin: 0;
+}
+html, body {
+  height: 95%;
+
+}
+.page-wrap {
+  min-height: 100%;
+  margin-bottom: -142px; 
+}
+.page-wrap:after {
+  content: "";
+  }
+.site-footer, .page-wrap:after {
+  height: 45px; 
+  background: #200000;
+}
+.logo {
+width: 100%;
+position: absolute;
+top: 30px;
+left: 500px;
+}
+
+	</style>
+</head>
+</html>
