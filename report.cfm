@@ -28,9 +28,9 @@
 
 
 	  <cfform name="Form" action="report.cfm">
-          <cfgrid name="Grid" query="getappointment" format="html"  colHeaderBold = "Yes" selectmode="edit" delete="Yes" deleteButton="Delete" insert="Yes" insertButton="Insert">
+          <cfgrid name="Grid" query="getappointment" format="html"  colHeaderBold = "Yes" selectmode="column" delete="Yes" deleteButton="Delete" insert="Yes" insertButton="Insert">
  
-           		<cfgridcolumn name="NAME" header="NAME" width=100 headeralign="center" headerbold="Yes">
+           		<cfgridcolumn name="NAME" header="NAME" width=100 headeralign="center" headerbold="Yes" select="Yes" >
           		<cfgridcolumn name="dob" header="dob" width=200 headeralign="center" headerbold="Yes">
           		<cfgridcolumn name="email" header="email" width=200 headeralign="center" headerbold="Yes">
           		<cfgridcolumn name="phone" header="phone" width=200 headeralign="center" headerbold="Yes">
@@ -48,10 +48,9 @@
 	  
 	  <cfform name="Form2" action="invoice.cfm">
           <cfinput name="pacid"  type="hidden" >
-          <cfinput type="submit" name="invoice" value="Invoices">
+          <cfinput type="submit" name="invoice" value="Invoices" >
 	  </cfform>
 </cfoutput>   
-<cfreport query="#getappointment#" template="Report1.cfr" format="HTML" filename="artSales.html" overwrite="yes"/>                                          
 </body>	 
 <cfinclude template = "footer.cfm">
 </html>

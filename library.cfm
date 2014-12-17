@@ -6,44 +6,45 @@
 
 </head>
     <body>
+ 
+ 
+<cfset UploadFolder="/opt/coldfusion8/runtime/servers/coldfusion/SERVER-INF/temp/wwwroot-tmp/">  
+<cfif IsDefined("Form.UploadFile") AND Form.UploadFile NEQ "">  
+ <cffile action="upload" filefield="UploadFile" destination="#UploadFolder#" nameconflict="overwrite" accept = "image/jpg, application/msword, application/pdf">  
+ File uploaded successfully!  
+    <br />  
+    Uploaded file: <cfoutput>#cffile.ClientFile#</cfoutput>  
+<cfelse>  
+ Select a file first!          
+</cfif>  
 
-		<table>
-			<tr>
-				<th>Document</th>
-				<th>View</th>
-			</tr>
-				<tr>
-				<td>Skin Care</td>
-				<td><a href="http://cscie60.dce.harvard.edu/~fkhalil/FP/home.cfm">View</a></td>
-			</tr>
-			<tr>
-				<td>Body Care</td>
-				<td><a href="http://cscie60.dce.harvard.edu/~fkhalil/FP/home.cfm">View</a></td>
-				
-			</tr>
-				<tr>
-				<td>Meditation</td>
-				<td><a href="http://cscie60.dce.harvard.edu/~fkhalil/FP/home.cfm">View</a></td>
-			</tr>
-			<tr>
-				<td>Sun Damage</td>
-				<td><a href="http://cscie60.dce.harvard.edu/~fkhalil/FP/home.cfm">View</a></td>
-			</tr>
-			<tr>
-				<td>Exercise</td>
-				<td><a href="http://cscie60.dce.harvard.edu/~fkhalil/FP/home.cfm">View</a></td>
-			</tr>
-		</table>
-		
-<cfif isDefined("fileUpload")>
-  <cffile action="upload" fileField="fileUpload" destination="/home/courses/f/k/fkhalil/FP" nameConflict = "overwrite">
-     <p>Thankyou, your file has been uploaded.</p>
-</cfif>
-<form enctype="multipart/form-data" method="post">
-<input type="file" name="fileUpload" /><br />
-<input type="submit" value="Upload File" />
-</form>
 
+<form name="UploadForm" method="post" enctype="multipart/form-data" action="">  
+ <input type="file" name="UploadFile">  
+    <input type="submit"  name="submit" value="Upload"/>  
+</form>  
+ 
+    
+<cfparam name="url.sort" default="datelastmodified desc">
+<cfdirectory directory="#ExpandPath("./")#" action="list" name="dir" sort="#url.sort#">
+
+<table width="50%" cellpadding="0" cellspacing="0">
+	<tr>
+		<th>Name <a href="?sort=name" class="sort" title="Sort By Name">∨</a></th>
+		<th>Size (bytes) <a href="?sort=size" class="sort" title="Sort By Size">∨</a></th>
+		<th>Last Modified <a href="?sort=datelastmodified+desc" class="sort" title="Sort By Date">∨</a></th>
+	</tr>
+	<cfoutput query="dir">
+	<cfif dir.name IS NOT "library.cfm">
+	<tr>
+		<td><a href="#dir.name#">#dir.name#</a></td>
+		<td>#dir.size#</td>
+		<td>#dir.datelastmodified#</td>
+	</tr>
+	</cfif>
+	</cfoutput>
+</table>
+  
     </body>
     <cfinclude template = "footer.cfm">
 </html>

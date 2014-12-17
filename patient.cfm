@@ -19,8 +19,8 @@
 
         		<cfif Form.Grid.rowstatus.action[counter] is "D">
                    <cfquery name="DeleteExistingPatient" datasource="#Request.DSN#" username="#Request.username#" password="#Request.password#" >
-                                DELETE FROM patient
-                                WHERE patientid=<cfqueryparam value="#Form.Grid.original.patientid[counter]#" CFSQLType="CF_SQL_CHAR" >
+                           DELETE FROM patient
+                           WHERE patientid=<cfqueryparam value="#Form.Grid.original.patientid[counter]#" CFSQLType="CF_SQL_CHAR" >
                    </cfquery>
 
                         
@@ -61,16 +61,20 @@
            </cfloop>
 	  </cfif> 
 
-
   <cfoutput>
-	  <cfquery name="getpatient" datasource="#Request.DSN#" username="#Request.username#" password="#Request.password#">
-	    	SELECT patientid, name, to_char(dob,'MM/DD/YYYY') as dob, phone, email FROM patient ORDER BY name
-	  </cfquery>	  
+ 	  <cfif IsDefined("patname")>
+	    	  <cfquery name="getpatient" datasource="#Request.DSN#" username="#Request.username#" password="#Request.password#">
+	    		    SELECT patientid, name, to_char(dob,'MM/DD/YYYY') as dob, phone, email FROM patient where name='#patname#' ORDER BY patientid
+	  		  </cfquery>
+	  <cfelseif IsDefined("pid")>
+			  <cfquery name="getpatient" datasource="#Request.DSN#" username="#Request.username#" password="#Request.password#">
+					SELECT patientid, name, to_char(dob,'MM/DD/YYYY') as dob, phone, email FROM patient where patientid='#pid#' ORDER BY patientid
+			  </cfquery>
+	  <cfelse>
+			  <cfquery name="getpatient" datasource="#Request.DSN#" username="#Request.username#" password="#Request.password#">
+			    	SELECT patientid, name, to_char(dob,'MM/DD/YYYY') as dob, phone, email FROM patient ORDER BY name
+			  </cfquery>	  
 	  
-  	  <cfif IsDefined("patname")>
-	    		<cfquery name="getpatient" datasource="#Request.DSN#" username="#Request.username#" password="#Request.password#">
-	    			SELECT patientid, name, to_char(dob,'MM/DD/YYYY') as dob, phone, email FROM patient where name='#patname#' ORDER BY name
-	  			</cfquery>
 	  </cfif>
 
 	  <cfform name="Form" action="patient.cfm" preserveData="yes">
@@ -82,23 +86,26 @@
 	          	<cfgridcolumn name="phone" header="* Phone" width=200 headeralign="center" headerbold="Yes">
 	          	<cfgridcolumn name="email" header="* Email" width=200 headeralign="center" headerbold="Yes">
           </cfgrid>
-          
-          <cfinput name="patname" type="text" value="" autosuggest="cfc:suggestcfc.getLNames({cfautosuggestvalue})">
-          <cfinput type="submit" name="gridEntered">
+ 		  <cfinput type="submit" name="gridEntered" value="Submit the change">
+
  	  </cfform>
+ 	  
+	  <cfform>
+	   	  <cfinput name="patname" type="text" value="" autosuggest="cfc:suggestcfc.getLNames({cfautosuggestvalue})">
+          <cfinput type="image" src="http://cscie60.dce.harvard.edu/~fkhalil/FP/images/searchbutton1.gif" name="gridEntered" value="Search" >
+	  </cfform>
+	  
+ 	  <cfform name="Form" action="appointment.cfm">
+          <cfinput name="pida" value=#getpatient.PATIENTID# bind="{Grid.PATIENTID}">
+          <cfinput type="submit" name="makeapp" value="Appointments">
+	  </cfform>
 
 	  <cfform>
 	  		<cfinput type="dateField" name="selectdate" label="DoB" width="100" value= #getpatient.dob# bind="{Grid.dob}">
 	  		<cfinput type="Submit" name="submitit" value="Save" width="100" > 
  	  </cfform>
 
-	  <cfform name="Form" action="appointment.cfm">
-          <cfinput name="patname"  type="hidden" >
-          <cfinput type="submit" name="makeapp" value="Appointments">
-	  </cfform>
   </cfoutput>
- 
- 	
  	
 </body>	 
 <cfinclude template = "footer.cfm">

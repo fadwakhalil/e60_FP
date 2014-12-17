@@ -7,7 +7,12 @@
 </head>
 
 <body>
-
+	  <cfoutput>
+		  <cfif IsDefined("pidi")>
+		      	<cfset pidiins = #pidi#> 
+		  </cfif>
+	  </cfoutput>
+	  
 
 	  <cfif isdefined("Form.Grid.rowstatus.action")> 
            <cfloop index = "counter" from = "1" to = #arraylen(Form.Grid.rowstatus.action)#>
@@ -27,13 +32,13 @@
                     			NEXTVISIT=TO_DATE('#Form.Grid.NEXTVISIT[counter]#','MM/DD/YYYY'),
 	                    		APTIME=<cfqueryparam  value="#Form.Grid.APTIME[counter]#" CFSQLType="CF_SQL_CHAR" >,
                     			ESTDURATION=<cfqueryparam  value="#Form.Grid.ESTDURATION[counter]#" CFSQLType="CF_SQL_CHAR" >,
-	                    		visited=<cfqueryparam  value="#Form.Grid.visited[counter]#" CFSQLType="CF_SQL_BOOLEAN" >,
-	                    		paid=<cfqueryparam  value="#Form.Grid.paid[counter]#" CFSQLType="CF_SQL_BOOLEAN" >
+	                    		VISITED=<cfqueryparam  value="#Form.Grid.visited[counter]#" CFSQLType="CF_SQL_BOOLEAN" >,
+	                    		PAID=<cfqueryparam  value="#Form.Grid.paid[counter]#" CFSQLType="CF_SQL_BOOLEAN" >
 	                    		WHERE appointmentid=<cfqueryparam value="#Form.Grid.original.appointmentid[counter]#" CFSQLType="CF_SQL_CHAR">
             			</cfquery>
             			<cfif #Form.Grid.paid[counter]# >
 	            			<cfoutput>
-	            				<cfmail from="fkhalil@dce.harvard.edu" to="fadwakhalil@gmail.com" subject="Paiment received">
+	            				<cfmail from="fkhalil@dce.harvard.edu" to="fadwakhalil@gmail.com" subject="Payment received">
 	            					Thanks For Your Payment.
 	            				</cfmail>
 	            			</cfoutput>
@@ -46,24 +51,25 @@
 	  <cfoutput>
 
 
-	  <cfquery name="getappointment" datasource="#Request.DSN#" username="#Request.username#" password="#Request.password#">
-	    	SELECT app.appointmentid, app.patientid, to_char(app.nextvisit,'MM/DD/YYYY') as nextvisit, app.aptime, app.estduration, pac.price, app.visited, app.paid, pac.packageid, pac.duration, pac.price
-	    	 FROM pappointment app, package pac where visited='true' 
-	    	 and
-	    	 pac.packageid=app.packageid
-	    	 ORDER BY APPOINTMENTID
+	  <cfquery name="getinvoice" datasource="#Request.DSN#" username="#Request.username#" password="#Request.password#">
+	    	SELECT	 app.appointmentid, app.patientid, to_char(app.nextvisit,'MM/DD/YYYY') as nextvisit, 
+	    			 app.aptime, app.estduration, pkg.price, app.visited, app.paid, pkg.packageid, pkg.duration, pkg.price
+	    	FROM	 pappointment app, package pkg
+	    	WHERE	 visited='true' 
+	    	AND		 pkg.packageid=app.packageid
+	    	ORDER BY appointmentid
 	  </cfquery>	  
 
-  	  <cfif IsDefined("apptid")>
-	  	  	<cfif IsNumeric(#apptid#)>
-	    		<cfquery name="getappointment" datasource="#Request.DSN#" username="#Request.username#" password="#Request.password#">
-	    	SELECT app.appointmentid, app.patientid, to_char(app.nextvisit,'MM/DD/YYYY') as nextvisit, app.aptime, app.estduration, pac.price, app.visited, app.paid, pac.packageid, pac.duration, pac.price
- 			FROM pappointment app, package pac 
- 			where visited='true' 
- 			and
-	 		pac.packageid=app.packageid
-	 		and
-	 		APPOINTMENTID=#apptid# ORDER BY APPOINTMENTID
+  	  <cfif IsDefined("pidiins")>
+	  	  	<cfif IsNumeric(#pidiins#)>
+	    		<cfquery name="getinvoice" datasource="#Request.DSN#" username="#Request.username#" password="#Request.password#">
+			    	SELECT	 app.appointmentid, app.patientid, to_char(app.nextvisit,'MM/DD/YYYY') as nextvisit, 
+			    			 app.aptime, app.estduration, pkg.price, app.visited, app.paid, pkg.packageid, pkg.duration, pkg.price
+		 			FROM	 pappointment app, package pkg 
+		 			WHERE	 visited='true' 
+		 			AND		 pkg.packageid=app.packageid
+			 		AND		 patientid=#pidiins#
+			 		ORDER BY appointmentid
 	  			</cfquery>
 	  		</cfif>
 	  </cfif>
@@ -74,7 +80,7 @@
 	  <cfset estdu = ValueList(getdu.duration)>
 
 	  <cfform name="Form" action="invoice.cfm">
-          <cfgrid name="Grid" query="getappointment" format="html"  colHeaderBold = "Yes" selectmode="edit" >
+         <cfgrid name="Grid" query="getinvoice" format="html"  colHeaderBold = "Yes" selectmode="edit" >
  
            		<cfgridcolumn name="appointmentid" header="Appointment ID" width=100 headeralign="center" headerbold="Yes"  display="Yes" >
           		<cfgridcolumn name="PATIENTID" header="PATIENTID" width=200 headeralign="center" headerbold="Yes">
@@ -86,10 +92,45 @@
 	          	<cfgridcolumn name="PAID" header="PAID?" width=100 headeralign="center" headerbold="Yes"  type="boolean">
 	          	 
           </cfgrid>
-          <cfinput name="pacid" type="text" value="" autosuggest="cfc:suggestcfc.getLNames({cfautosuggestvalue})">
-          <cfinput type="submit" name="gridEntered">
+           
+		  <cfif IsDefined("pidiins")>
+		      	 <cfinput name="pidiins" type="hidden" value=#pidiins#>
+		  </cfif>
+		  
+ 		  <cfinput type="submit" name="gridEntered" value="Submit the change">
+
+ 	  </cfform>
+	  
+
+	  <cfform>
+	   	  <cfinput name="pidiins" type="text" value="" autosuggest="cfc:suggestcfc.getLNames({cfautosuggestvalue})">
+          <cfinput type="image" src="http://cscie60.dce.harvard.edu/~fkhalil/FP/images/searchbutton1.gif" name="gridEntered" value="Search" >
+	  </cfform>
+	  
+ 	  <cfform name="Form" action="patient.cfm">
+ 	  	<cfif len(#getinvoice.PATIENTID#)>
+          <cfinput name="pid" value=#getinvoice.PATIENTID#  bind="{Grid.PATIENTID}">
+ 	  	<cfelseif IsDefined("pidiins")>
+ 	  		<cfinput name="pid" value=#pidiins#>
+ 	  	<cfelse>
+ 	  		<cfinput name="pid" value="">
+ 	  	</cfif>
+          <cfinput type="submit" name="makeapp" value="Patient">
 	  </cfform>
 
+
+ 	  <cfform name="Form" action="appointment.cfm">
+ 	  	<cfif len(#getinvoice.PATIENTID#)>
+ 	  		<cfinput name="pida" value=#getinvoice.PATIENTID# bind="{Grid.PATIENTID}">
+ 	  	<cfelseif IsDefined("pidiins")>
+ 	  		<cfinput name="pida" value=#pidiins#>
+ 	  	<cfelse>
+ 	  		<cfinput name="pida" value="">
+ 	  	</cfif>
+          <cfinput type="submit" name="makeapp" value="Appointment">
+	  </cfform>
+	  
+	  
 	</cfoutput>
  	
 </body>	 

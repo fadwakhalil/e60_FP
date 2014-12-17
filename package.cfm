@@ -71,11 +71,10 @@
           		<cfgridcolumn name="price" header="Price" width=200 headeralign="center" headerbold="Yes">
 	                    		
           		<cfgridcolumn name="packageid" header="Package ID" width=100 headeralign="center" headerbold="Yes"  display="Yes" >
-          </cfgrid>
-          <cfinput type="submit" name="gridEntered">
-	  </cfform>
-
- 	  </cfoutput>
+           </cfgrid>
+ 		  <cfinput type="submit" name="gridEntered" value="Submit the change">
+ 	  </cfform>
+	 </cfoutput>
 		  
  	
 </body>	 
