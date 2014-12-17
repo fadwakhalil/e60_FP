@@ -8,7 +8,7 @@
     <body>
  
  
-<cfset UploadFolder="/opt/coldfusion8/runtime/servers/coldfusion/SERVER-INF/temp/wwwroot-tmp/">  
+<cfset UploadFolder="/home/courses/f/k/fkhalil/wwwroot-tmp">  
 <cfif IsDefined("Form.UploadFile") AND Form.UploadFile NEQ "">  
  <cffile action="upload" filefield="UploadFile" destination="#UploadFolder#" nameconflict="overwrite" accept = "image/jpg, application/msword, application/pdf">  
  File uploaded successfully!  
