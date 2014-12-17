@@ -92,7 +92,7 @@
 	    			FROM 		pappointment app
 	    			INNER JOIN	package pkg 
 	    			ON			pkg.packageid=app.packageid
-	    			WHERE 		app.visited='false' and app.PATIENTID=#pidains# 
+	    			WHERE 		app.visited='false' AND app.PATIENTID IN (select PATIENTID from patient where patientid = #pidains#) 
 	    			ORDER BY	appointmentid
 	  			</cfquery>
 	  		</cfif>
@@ -128,21 +128,13 @@
 
 
 
- 	  
-	  <cfform>
-	   	  <cfinput name="pidains" type="text" value="" autosuggest="cfc:suggestcfc.getLNames({cfautosuggestvalue})">
-          <cfinput type="image" src="http://cscie60.dce.harvard.edu/~fkhalil/FP/images/searchbutton1.gif" name="gridEntered" value="Search" >
-	  </cfform>
-	  
-	  
-
  	  <cfform name="Form" action="patient.cfm">
  	  	<cfif len(#getappointment.PATIENTID#)>
-          <cfinput name="pid" value=#getappointment.PATIENTID# bind="{Grid.PATIENTID}">
+          <cfinput name="pid" value=#getappointment.PATIENTID# bind="{Grid.PATIENTID}" type="hidden">
  	  	<cfelseif IsDefined("pidains")>
- 	  		<cfinput name="pid" value=#pidains#>
+ 	  		<cfinput name="pid" value=#pidains# type="hidden">
  	  	<cfelse>
- 	  		<cfinput name="pid" value="">
+ 	  		<cfinput name="pid" value="" type="hidden">
  	  	</cfif>
           <cfinput type="submit" name="makeapp" value="Patient">
 	  </cfform>
@@ -150,11 +142,11 @@
 
  	  <cfform name="Form" action="invoice.cfm">
  	  	<cfif len(#getappointment.PATIENTID#)>
- 	  		<cfinput name="pidi" value=#getappointment.PATIENTID# bind="{Grid.PATIENTID}">
+ 	  		<cfinput name="pidi" value=#getappointment.PATIENTID# bind="{Grid.PATIENTID}" type="hidden">
  	  	<cfelseif IsDefined("pidains")>
- 	  		<cfinput name="pidi" value=#pidains#>
+ 	  		<cfinput name="pidi" value=#pidains# type="hidden">
  	  	<cfelse>
- 	  		<cfinput name="pidi" value="">
+ 	  		<cfinput name="pidi" value="" type="hidden">
  	  	</cfif>
           <cfinput type="submit" name="makeapp" value="Invoice">
 	  </cfform>

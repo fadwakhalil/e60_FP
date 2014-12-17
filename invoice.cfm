@@ -101,19 +101,14 @@
 
  	  </cfform>
 	  
-
-	  <cfform>
-	   	  <cfinput name="pidiins" type="text" value="" autosuggest="cfc:suggestcfc.getLNames({cfautosuggestvalue})">
-          <cfinput type="image" src="http://cscie60.dce.harvard.edu/~fkhalil/FP/images/searchbutton1.gif" name="gridEntered" value="Search" >
-	  </cfform>
 	  
  	  <cfform name="Form" action="patient.cfm">
  	  	<cfif len(#getinvoice.PATIENTID#)>
-          <cfinput name="pid" value=#getinvoice.PATIENTID#  bind="{Grid.PATIENTID}">
+          <cfinput name="pid" value=#getinvoice.PATIENTID#  bind="{Grid.PATIENTID}" type="hidden">
  	  	<cfelseif IsDefined("pidiins")>
- 	  		<cfinput name="pid" value=#pidiins#>
+ 	  		<cfinput name="pid" value=#pidiins# type="hidden">
  	  	<cfelse>
- 	  		<cfinput name="pid" value="">
+ 	  		<cfinput name="pid" value="" type="hidden">
  	  	</cfif>
           <cfinput type="submit" name="makeapp" value="Patient">
 	  </cfform>
@@ -121,11 +116,11 @@
 
  	  <cfform name="Form" action="appointment.cfm">
  	  	<cfif len(#getinvoice.PATIENTID#)>
- 	  		<cfinput name="pida" value=#getinvoice.PATIENTID# bind="{Grid.PATIENTID}">
+ 	  		<cfinput name="pida" value=#getinvoice.PATIENTID# bind="{Grid.PATIENTID}" type="hidden">
  	  	<cfelseif IsDefined("pidiins")>
- 	  		<cfinput name="pida" value=#pidiins#>
+ 	  		<cfinput name="pida" value=#pidiins# type="hidden">
  	  	<cfelse>
- 	  		<cfinput name="pida" value="">
+ 	  		<cfinput name="pida" value="" type="hidden">
  	  	</cfif>
           <cfinput type="submit" name="makeapp" value="Appointment">
 	  </cfform>

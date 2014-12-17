@@ -96,7 +96,7 @@
 	  </cfform>
 	  
  	  <cfform name="Form" action="appointment.cfm">
-          <cfinput name="pida" value=#getpatient.PATIENTID# bind="{Grid.PATIENTID}">
+          <cfinput name="pida" value=#getpatient.PATIENTID# bind="{Grid.PATIENTID}" type="hidden">
           <cfinput type="submit" name="makeapp" value="Appointments">
 	  </cfform>
 
