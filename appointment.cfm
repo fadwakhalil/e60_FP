@@ -29,35 +29,45 @@
 	                        <cfquery name="Increment_seq" datasource="#Request.DSN#" username="#Request.username#" password="#Request.password#" >
 	                        	SELECT appointment_seq.nextval FROM dual
 	                        </cfquery>
-	                        <cfoutput>
-		                        <cfquery name="InsertNewAppointment" datasource="#Request.DSN#" username="#Request.username#" password="#Request.password#" >
-		                        	INSERT INTO pappointment 
-		                        	VALUES 
-		                        	(#Increment_seq.nextval#, 
-		                        	#pidains#, 
-		                        	<cfqueryparam  value="#Form.Grid.PACKAGEID[counter]#" CFSQLType="CF_SQL_CHAR" >, 
-		                        	TO_DATE('#Form.Grid.NEXTVISIT[counter]#','MM/DD/YYYY'),
-		                        	<cfqueryparam  value="#Form.Grid.APTIME[counter]#" CFSQLType="CF_SQL_VARCHAR" >, 
-		                        	<cfqueryparam  value="#Form.Grid.ESTDURATION[counter]#" CFSQLType="CF_SQL_CHAR" >,
-			                        <cfqueryparam  value="#Form.Grid.visited[counter]#" CFSQLType="CF_SQL_BOOLEAN" >,
-			                       'false'
-		                        	)
-		                        	
-		                        </cfquery>
-	                        </cfoutput>
+	                        <cftry>
+		                        <cfoutput>
+			                        <cfquery name="InsertNewAppointment" datasource="#Request.DSN#" username="#Request.username#" password="#Request.password#" >
+			                        	INSERT INTO pappointment 
+			                        	VALUES 
+			                        	(#Increment_seq.nextval#, 
+			                        	#pidains#, 
+			                        	<cfqueryparam  value="#Form.Grid.PACKAGEID[counter]#" CFSQLType="CF_SQL_CHAR" >, 
+			                        	TO_DATE('#Form.Grid.NEXTVISIT[counter]#','MM/DD/YYYY'),
+			                        	<cfqueryparam  value="#Form.Grid.APTIME[counter]#" CFSQLType="CF_SQL_VARCHAR" >, 
+			                        	<cfqueryparam  value="#Form.Grid.ESTDURATION[counter]#" CFSQLType="CF_SQL_CHAR" >,
+				                        <cfqueryparam  value="#Form.Grid.visited[counter]#" CFSQLType="CF_SQL_BOOLEAN" >,
+				                       'false'
+			                        	)
+			                        	
+			                        </cfquery>
+		                        </cfoutput>
+	                        <cfcatch type="any">
+	                        	Invalid Entry.
+	                        </cfcatch>
+	                        </cftry>
         				</cfif>
                         
        			    <cfelseif Form.Grid.rowstatus.action[counter] is "U">
-            			<cfquery name="UpdateExistingAppointment" datasource="#Request.DSN#" username="#Request.username#" password="#Request.password#"> 
-                				UPDATE pappointment 
-                				SET
-                    			NEXTVISIT=TO_DATE('#Form.Grid.NEXTVISIT[counter]#','MM/DD/YYYY'),
-	                    		APTIME=<cfqueryparam  value="#Form.Grid.APTIME[counter]#" CFSQLType="CF_SQL_VARCHAR" >,
-                    			ESTDURATION=<cfqueryparam  value="#Form.Grid.ESTDURATION[counter]#" CFSQLType="CF_SQL_CHAR" >,
-	                    		VISITED=<cfqueryparam  value="#Form.Grid.visited[counter]#" CFSQLType="CF_SQL_VARCHAR" >
-	                    		WHERE appointmentid=<cfqueryparam value="#Form.Grid.original.appointmentid[counter]#" CFSQLType="CF_SQL_CHAR">
-            			</cfquery>
-            			
+       			    	<cftry>
+	            			<cfquery name="UpdateExistingAppointment" datasource="#Request.DSN#" username="#Request.username#" password="#Request.password#"> 
+	                				UPDATE pappointment 
+	                				SET
+	                    			NEXTVISIT=TO_DATE('#Form.Grid.NEXTVISIT[counter]#','MM/DD/YYYY'),
+		                    		APTIME=<cfqueryparam  value="#Form.Grid.APTIME[counter]#" CFSQLType="CF_SQL_VARCHAR" >,
+	                    			ESTDURATION=<cfqueryparam  value="#Form.Grid.ESTDURATION[counter]#" CFSQLType="CF_SQL_CHAR" >,
+		                    		VISITED=<cfqueryparam  value="#Form.Grid.visited[counter]#" CFSQLType="CF_SQL_VARCHAR" >
+		                    		WHERE appointmentid=<cfqueryparam value="#Form.Grid.original.appointmentid[counter]#" CFSQLType="CF_SQL_CHAR">
+	            			</cfquery>
+	            		<cfcatch type="any">
+	            			Invalid Entry.
+	            		</cfcatch>
+       			    	</cftry>
+       			    	
             			<cfif #Form.Grid.visited[counter]# >
 	            			<cfoutput>
 	            				<cfmail from="fadwakhalil@gmail.com" to="fadwakhalil@gmail.com" subject="Thanks for Visiting ">
@@ -109,7 +119,7 @@
         
         <cfgrid name="Grid" query="getappointment" format="html"  colHeaderBold = "Yes" selectmode="edit" delete="Yes" deleteButton="Delete" insert="Yes" insertButton="Insert">
          
-           		<cfgridcolumn name="appointmentid" header="Appointment ID" width=100 headeralign="center" headerbold="Yes"  display="yes" >
+           		<cfgridcolumn name="appointmentid" header="Appointment ID" width=100 headeralign="center" headerbold="Yes"  display="No" >
           		<cfgridcolumn name="PATIENTID" header="PATIENTID" width=200 headeralign="center" headerbold="Yes" display="No">
           		<cfgridcolumn name="PACKAGEID" header="PACKAGEID" width=200 headeralign="center" headerbold="Yes">
           		<cfgridcolumn name="NEXTVISIT" header="NEXT VISIT" width=200 headeralign="center" headerbold="Yes">

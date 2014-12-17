@@ -25,17 +25,21 @@
            
 
       			    <cfif Form.Grid.rowstatus.action[counter] is "U">
-            			<cfquery name="UpdateExistingAppointment" datasource="#Request.DSN#" username="#Request.username#" password="#Request.password#"> 
-                				UPDATE pappointment 
-                				SET
-                				PATIENTID=<cfqueryparam  value="#Form.Grid.PATIENTID[counter]#" CFSQLType="CF_SQL_CHAR" >,
-                    			NEXTVISIT=TO_DATE('#Form.Grid.NEXTVISIT[counter]#','MM/DD/YYYY'),
-	                    		APTIME=<cfqueryparam  value="#Form.Grid.APTIME[counter]#" CFSQLType="CF_SQL_CHAR" >,
-                    			ESTDURATION=<cfqueryparam  value="#Form.Grid.ESTDURATION[counter]#" CFSQLType="CF_SQL_CHAR" >,
-	                    		VISITED=<cfqueryparam  value="#Form.Grid.visited[counter]#" CFSQLType="CF_SQL_BOOLEAN" >,
-	                    		PAID=<cfqueryparam  value="#Form.Grid.paid[counter]#" CFSQLType="CF_SQL_BOOLEAN" >
-	                    		WHERE appointmentid=<cfqueryparam value="#Form.Grid.original.appointmentid[counter]#" CFSQLType="CF_SQL_CHAR">
-            			</cfquery>
+      			    	<cftry>
+	            			<cfquery name="UpdateExistingAppointment" datasource="#Request.DSN#" username="#Request.username#" password="#Request.password#"> 
+	                				UPDATE pappointment 
+	                				SET
+	                    			NEXTVISIT=TO_DATE('#Form.Grid.NEXTVISIT[counter]#','MM/DD/YYYY'),
+		                    		APTIME=<cfqueryparam  value="#Form.Grid.APTIME[counter]#" CFSQLType="CF_SQL_CHAR" >,
+	                    			ESTDURATION=<cfqueryparam  value="#Form.Grid.ESTDURATION[counter]#" CFSQLType="CF_SQL_CHAR" >,
+		                    		VISITED=<cfqueryparam  value="#Form.Grid.visited[counter]#" CFSQLType="CF_SQL_BOOLEAN" >,
+		                    		PAID=<cfqueryparam  value="#Form.Grid.paid[counter]#" CFSQLType="CF_SQL_BOOLEAN" >
+		                    		WHERE appointmentid=<cfqueryparam value="#Form.Grid.original.appointmentid[counter]#" CFSQLType="CF_SQL_CHAR">
+	            			</cfquery>
+            			<cfcatch type="any">
+            				Invalid Entry.
+            			</cfcatch>
+      			    	</cftry>
             			<cfif #Form.Grid.paid[counter]# >
 	            			<cfoutput>
 	            				<cfmail from="fkhalil@dce.harvard.edu" to="fadwakhalil@gmail.com" subject="Payment received">
@@ -82,8 +86,8 @@
 	  <cfform name="Form" action="invoice.cfm">
          <cfgrid name="Grid" query="getinvoice" format="html"  colHeaderBold = "Yes" selectmode="edit" >
  
-           		<cfgridcolumn name="appointmentid" header="Appointment ID" width=100 headeralign="center" headerbold="Yes"  display="Yes" >
-          		<cfgridcolumn name="PATIENTID" header="PATIENTID" width=200 headeralign="center" headerbold="Yes">
+           		<cfgridcolumn name="appointmentid" header="Appointment ID" width=100 headeralign="center" headerbold="Yes"  display="No" >
+          		<cfgridcolumn name="PATIENTID" header="PATIENTID" width=200 headeralign="center" headerbold="Yes" display="No">
           		<cfgridcolumn name="NEXTVISIT" header="NEXT VISIT" width=200 headeralign="center" headerbold="Yes">
           		<cfgridcolumn name="APTIME" header="TIME" width=100 headeralign="center" headerbold="Yes">
           		<cfgridcolumn name="ESTDURATION" header="DURATION" width=100 headeralign="center" headerbold="Yes" values="#estdu#" valuesdisplay="#estdu#" valuesdelimiter=",">
