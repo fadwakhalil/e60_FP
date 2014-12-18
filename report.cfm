@@ -6,6 +6,10 @@
   
  </head>
  <body>	 
+ <cfif not IsDefined ("Session.userview")>
+		<cflocation url="http://cscie60.dce.harvard.edu/~fkhalil/FP/login.cfm">
+	<cfelse>
+		<cfif Session.userview eq "all" >
 
  <cfsetting enablecfoutputonly="Yes"> 
 
@@ -49,6 +53,9 @@
     </table>
 </cfform>  
 </cfoutput>
+		</cfif>
+	</cfif>
+
 </body>	 
 <cfinclude template = "footer.cfm">
 </html>

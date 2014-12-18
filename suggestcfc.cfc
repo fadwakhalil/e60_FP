@@ -7,7 +7,6 @@
         WHERE name LIKE <cfqueryparam value="#suggestvalue#%"
             cfsqltype="cf_sql_varchar">
         </cfquery>
-        <!--- Convert the query to an array. --->
         <cfloop query="getDBNames">
             <cfset arrayAppend(myarray, name)>
         </cfloop>

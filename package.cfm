@@ -7,17 +7,15 @@
 </head>
 
 <body>
+<cfif not IsDefined ("Session.userview")>
+		<cflocation url="http://cscie60.dce.harvard.edu/~fkhalil/FP/login.cfm">
+	<cfelse>
+		<cfif Session.userview eq "all" >
 <h8>Please double click each cell when you need to edit information.</h8>
 
 	  <cfif isdefined("Form.Grid.rowstatus.action")> 
            <cfloop index = "counter" from = "1" to = #arraylen(Form.Grid.rowstatus.action)#>
-           
-	                   <cfoutput> 
-            				The row action for #counter# is: 
-          					#Form.Grid.rowstatus.action[counter]# 
-            				<br> 
-        				</cfoutput> 
-           
+                      
            
                    <cfif Form.Grid.rowstatus.action[counter] is "D">
                         <cfquery name="DeleteExistingPackage" datasource="#Request.DSN#" username="#Request.username#" password="#Request.password#" >
@@ -80,7 +78,9 @@
  	  </cfform>
 	 </cfoutput>
 		  
- 	
+ 			</cfif>
+	</cfif>
+
 </body>	 
 	  
    

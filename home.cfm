@@ -1,12 +1,10 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
- <head>
+<head>
       <cfinclude template = "general.css">
       <cfinclude template = "header.cfm">  
-
 </head>
-
 <body>
 	<cfif not IsDefined ("Session.userview")>
 		<cflocation url="http://cscie60.dce.harvard.edu/~fkhalil/FP/login.cfm">
@@ -65,10 +63,8 @@
 	box-shadow: 0 0 8px rgba(0, 0, 0, .8);
 	-webkit-box-shadow: 0 0 8px rgba(0, 0, 0, .8);
 	-moz-box-shadow: 0 0 8px rgba(0, 0, 0, .8);"><br /><h7>Invoice</h7></div></a>
-
 	  </div>
-		
-	</cfif>
+		</cfif>
 	</cfif>
 	<cfinclude template = "footer.cfm">
 

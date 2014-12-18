@@ -7,6 +7,10 @@
 </head>
 
 <body>
+<cfif not IsDefined ("Session.userview")>
+		<cflocation url="http://cscie60.dce.harvard.edu/~fkhalil/FP/login.cfm">
+	<cfelse>
+		<cfif Session.userview eq "all" >
 <h8>Please double click each cell when you need to edit information.</h8>
 
 	  <cfoutput>
@@ -167,7 +171,9 @@
 
 	  
 	</cfoutput>
- 		
+ 				</cfif>
+	</cfif>
+
 </body>	 
 	  
    
