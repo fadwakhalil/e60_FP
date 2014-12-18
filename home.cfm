@@ -3,8 +3,15 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
  <head>
       <cfinclude template = "general.css">
-	  <cfinclude template = "header.cfm">  
+      <cfinclude template = "header.cfm">  
+
 </head>
+
+<body>
+	<cfif not IsDefined ("Session.userview")>
+		<cflocation url="http://cscie60.dce.harvard.edu/~fkhalil/FP/login.cfm">
+	<cfelse>
+		<cfif Session.userview eq "all" >
 	  	  <div style="margin: 0 auto; text-align: center; overflow: hidden;" >
 	  <a href="http://cscie60.dce.harvard.edu/~fkhalil/FP/patient.cfm"><div class="circular1" style="float: left; width: 150px;
 	height: 150px;
@@ -61,8 +68,10 @@
 
 	  </div>
 		
+	</cfif>
+	</cfif>
+	<cfinclude template = "footer.cfm">
 
-		
-		<cfinclude template = "footer.cfm">
+</body>
 	
 </html>

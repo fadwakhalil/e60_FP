@@ -7,6 +7,8 @@
 </head>
 
 <body>
+<h8>Please double click each cell when you need to edit information.</h8>
+
 	  <cfoutput>
 		  <cfif IsDefined("pida")>
 		      	<cfset pidains = #pida#> 
@@ -70,7 +72,7 @@
        			    	
             			<cfif #Form.Grid.visited[counter]# >
 	            			<cfoutput>
-	            				<cfmail from="fadwakhalil@gmail.com" to="fadwakhalil@gmail.com" subject="Thanks for Visiting ">
+	            				<cfmail from="info.cscie60@gmail.com" to="fadwakhalil@gmail.com" subject="Thanks for Visiting ">
 	            						Thank you for your visit.
 	            				</cfmail>
 	            			</cfoutput>
@@ -113,6 +115,7 @@
 	  </cfquery>
 
 	  <cfset estdu = ValueList(getdu.duration)>
+	  <cfset packid = ValueList(getdu.packageid)>
 
 
 	  <cfform name="Form" action="appointment.cfm">
@@ -120,10 +123,10 @@
         <cfgrid name="Grid" query="getappointment" format="html"  colHeaderBold = "Yes" selectmode="edit" delete="Yes" deleteButton="Delete" insert="Yes" insertButton="Insert">
          
            		<cfgridcolumn name="appointmentid" header="Appointment ID" width=100 headeralign="center" headerbold="Yes"  display="No" >
-          		<cfgridcolumn name="PATIENTID" header="PATIENTID" width=200 headeralign="center" headerbold="Yes" display="No">
-          		<cfgridcolumn name="PACKAGEID" header="PACKAGEID" width=200 headeralign="center" headerbold="Yes">
-          		<cfgridcolumn name="NEXTVISIT" header="NEXT VISIT" width=200 headeralign="center" headerbold="Yes">
-          		<cfgridcolumn name="APTIME" header="TIME" width=200 headeralign="center" headerbold="Yes">
+          		<cfgridcolumn name="PATIENTID" header="PATIENT ID" width=200 headeralign="center" headerbold="Yes" display="No">
+          		<cfgridcolumn name="PACKAGEID" header="PACKAGE ID" width=200 headeralign="center" headerbold="Yes"values="#packid#" valuesdisplay="#packid#" valuesdelimiter=",">          		
+          		<cfgridcolumn name="NEXTVISIT" header="NEXT VISIT (mm/dd/yyyy)" width=200 headeralign="center" headerbold="Yes">
+          		<cfgridcolumn name="APTIME" header="TIME (hh:mm)" width=200 headeralign="center" headerbold="Yes">
           		<cfgridcolumn name="ESTDURATION" header="DURATION" width=200 headeralign="center" headerbold="Yes" values="#estdu#" valuesdisplay="#estdu#" valuesdelimiter=",">
 	          	<cfgridcolumn name="VISITED" header="VISITED?" width=200 headeralign="center" headerbold="Yes"  type="boolean">
 	          	 

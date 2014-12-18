@@ -5,52 +5,50 @@
 		<cfinclude template = "header.cfm">  
   
  </head>
- <cfoutput>
+ <body>	 
 
-<cfparam name="patid" default="AAA" type="string">
-	  <cfquery name="getappointment" datasource="#Request.DSN#" username="#Request.username#" password="#Request.password#">
-	    	SELECT * from patient
-	  </cfquery>	  
+ <cfsetting enablecfoutputonly="Yes"> 
 
-  	  
-  	  <cfif IsDefined("pacid")>
-	  	  	<cfif IsNumeric(#pacid#)>
-	    		<cfquery name="getappointment" datasource="#Request.DSN#" username="#Request.username#" password="#Request.password#">
-	    			SELECT * from patient
-	  			</cfquery>
-	  		</cfif>
-	  </cfif>
-
-<cfquery name="getdu" datasource="#Request.DSN#" username="#Request.username#" password="#Request.password#">
-	    			SELECT * FROM package 
-	  			</cfquery>
-<cfset estdu = ValueList(getdu.duration)>
-
-
-	  <cfform name="Form" action="report.cfm">
-          <cfgrid name="Grid" query="getappointment" format="html"  colHeaderBold = "Yes" selectmode="column" delete="Yes" deleteButton="Delete" insert="Yes" insertButton="Insert">
- 
-           		<cfgridcolumn name="NAME" header="NAME" width=100 headeralign="center" headerbold="Yes" select="Yes" >
-          		<cfgridcolumn name="dob" header="dob" width=200 headeralign="center" headerbold="Yes">
-          		<cfgridcolumn name="email" header="email" width=200 headeralign="center" headerbold="Yes">
-          		<cfgridcolumn name="phone" header="phone" width=200 headeralign="center" headerbold="Yes">
-          </cfgrid>
-          
-          <cfinput name="pacid" type="text" value="" autosuggest="cfc:suggestcfc.getLNames({cfautosuggestvalue})">
-          <cfinput type="submit" name="gridEntered">
-	  </cfform>
-
-	
-	  <cfform name="Form1" action="patient.cfm">
-          <cfinput name="pacid"  type="hidden" >
-          <cfinput type="submit" name="patient" value="Patients">
-	  </cfform>
-	  
-	  <cfform name="Form2" action="invoice.cfm">
-          <cfinput name="pacid"  type="hidden" >
-          <cfinput type="submit" name="invoice" value="Invoices" >
-	  </cfform>
-</cfoutput>   
+<cfoutput>
+	    	  <cfquery name="getpatient" datasource="#Request.DSN#" username="#Request.username#" password="#Request.password#">
+	    			SELECT		pat.patientid, pat.name, to_char(pat.dob,'MM/DD/YYYY') as dob, pat.phone, pat.email, 
+	    						app.appointmentid, to_char(app.nextvisit,'MM/DD/YYYY') as nextvisit, 
+	    						app.aptime, app.estduration, app.visited, pat.patientid, app.paid
+	    			FROM 		pappointment app, patient pat
+	    			ORDER BY	name
+	  		  </cfquery>
+<cfcontent type="application/msexcel"> 
+<cfheader name="Content-Disposition" value="filename=Patients.xls"> 
+<cfform name="Patients Report" method="post" format="html">      
+<table cols="4"> 
+            <tr> 
+                <td>Patient ID</td>
+                <td>Name</td>        
+                <td>Date of Birth</td>  
+                <td>Phone</td>  
+                <td>Email</td>
+                <td>Visit</td>
+                <td>Time</td>
+                <td>Visited?</td>
+                <td>Paid?</td>
+            </tr> 
+                    <cfloop query="getpatient"> 
+            <tr> 
+                <td>#patientid#</td> 
+                <td>#name#</td> 
+                <td>#DoB#</td> 
+                <td>#phone#</td> 
+                <td>#email#</td> 
+                <td>#nextvisit#</td> 
+                <td>#estduration#</td> 
+                <td>#visited#</td> 
+                <td>#Paid#</td> 
+                
+            </tr> 
+        </cfloop> 
+    </table>
+</cfform>  
+</cfoutput>
 </body>	 
 <cfinclude template = "footer.cfm">
 </html>

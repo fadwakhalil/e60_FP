@@ -18,12 +18,21 @@
  Select a file first!          
 </cfif>  
 
-
 <form name="UploadForm" method="post" enctype="multipart/form-data" action="">  
  <input type="file" name="UploadFile">  
     <input type="submit"  name="submit" value="Upload"/>  
 </form>  
  
+<CFSET filepath = "/home/courses/f/k/fkhalil/wwwroot-tmp"> 
+<cfif IsDefined("Form.DownloadFile") AND Form.DownloadFile NEQ "">  
+<cfheader name="Content-Disposition"  value="attachment" > 
+<cfcontent type="application/msword" file="/home/courses/f/k/fkhalil/wwwroot-tmp/dcscsdcsdc.doc" deletefile="No">  
+ </cfif>  
+
+ <form name="DownloadForm" method="post" enctype="multipart/form-data" action="">  
+ <input type="file" name="DownloadFile">  
+    <input type="submit"  name="submit" value="Download"/>  
+ </form>  
     
 <cfparam name="url.sort" default="datelastmodified desc">
 <cfdirectory directory="#ExpandPath("./")#" action="list" name="dir" sort="#url.sort#">

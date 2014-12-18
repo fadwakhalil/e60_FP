@@ -7,6 +7,8 @@
 </head>
 
 <body>
+<h8>Please double click each cell when you need to edit information.</h8>
+
 	  <cfoutput>
 		  <cfif IsDefined("pidi")>
 		      	<cfset pidiins = #pidi#> 
@@ -16,14 +18,7 @@
 
 	  <cfif isdefined("Form.Grid.rowstatus.action")> 
            <cfloop index = "counter" from = "1" to = #arraylen(Form.Grid.rowstatus.action)#>
-
-	                   <cfoutput> 
-            				The row action for #counter# is: 
-          					#Form.Grid.rowstatus.action[counter]# 
-            				<br> 
-        				</cfoutput> 
-           
-
+	                 
       			    <cfif Form.Grid.rowstatus.action[counter] is "U">
       			    	<cftry>
 	            			<cfquery name="UpdateExistingAppointment" datasource="#Request.DSN#" username="#Request.username#" password="#Request.password#"> 
@@ -42,7 +37,7 @@
       			    	</cftry>
             			<cfif #Form.Grid.paid[counter]# >
 	            			<cfoutput>
-	            				<cfmail from="fkhalil@dce.harvard.edu" to="fadwakhalil@gmail.com" subject="Payment received">
+	            				<cfmail from="info.cscie60@gmail.com" to="fadwakhalil@gmail.com" subject="Payment received">
 	            					Thanks For Your Payment.
 	            				</cfmail>
 	            			</cfoutput>

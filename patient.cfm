@@ -6,16 +6,11 @@
 </head>
 
 <body>
-
+<h8>Please double click each cell when you need to edit information.</h8>
 	  <cfif isdefined("Form.Grid.rowstatus.action")>
 
     		<cfloop index = "counter" from = "1" to = #arraylen(Form.Grid.rowstatus.action)#>
 
-        		<cfoutput>
-           			The row action for #counter# is:
-            		#Form.Grid.rowstatus.action[counter]#
-            		<br>
-        		</cfoutput>
 
         		<cfif Form.Grid.rowstatus.action[counter] is "D">
                    <cfquery name="DeleteExistingPatient" datasource="#Request.DSN#" username="#Request.username#" password="#Request.password#" >
@@ -82,7 +77,7 @@
  
           		<cfgridcolumn name="PATIENTID" header="PATIENTID" width=200 headeralign="center" headerbold="Yes" display="No">
           		<cfgridcolumn name="name" header="* Name" width=200 headeralign="center" headerbold="Yes"  >
-          		<cfgridcolumn name="dob" header="* Date of Birth" width=200 headeralign="center" headerbold="Yes">
+          		<cfgridcolumn name="dob" header="* Date of Birth (mm/dd/yyyy)" width=200 headeralign="center" headerbold="Yes">
 	          	<cfgridcolumn name="phone" header="* Phone" width=200 headeralign="center" headerbold="Yes">
 	          	<cfgridcolumn name="email" header="* Email" width=200 headeralign="center" headerbold="Yes">
           </cfgrid>

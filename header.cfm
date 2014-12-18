@@ -18,7 +18,7 @@
 		<td width="100%">&nbsp;</td>
 		<td><a href="http://cscie60.dce.harvard.edu/~fkhalil/FP/report.cfm"><h8>Reports</h8></a></td>	
 		<td width="50%">&nbsp;</td>
-		<td><a href="#"><h8>Logout</h8></a></td>
+		<td><a href="http://cscie60.dce.harvard.edu/~fkhalil/FP/logout.cfm"><h8>Logout</h8></a></td>
 		<td width="10%">&nbsp;</td>
 	</tr>
 </table>
